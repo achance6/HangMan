@@ -2,6 +2,7 @@
 #include <string>
 
 char getGuess() {
+	// TODO: handle bad inputs
 	using std::cin;
 	
 	char guess{};
@@ -26,11 +27,16 @@ std::string handleGuess(char guess,
 	return display; // move semantics?
 }
 
-int main() {
+constexpr std::string genAnswer() {
+	//TODO: generate answer from dictionary
+	return "hangman";
+}
+
+void play() {
 	using std::string;
 	using std::cout, std::cin;
 
-	string answer{ "hangmann" };
+	string answer{ genAnswer() };
 
 	string display{};
 	for (int i{ 0 }; i < answer.length(); ++i) display += '_';
@@ -43,7 +49,7 @@ int main() {
 		cout << "Guess a letter (# to quit): ";
 		char guess{ getGuess() };
 		if (guess == '#') exit(0);
-		
+
 		string tmp{ display }; // to compare against new display
 		display = handleGuess(guess, answer, display);
 		bool guessCorrect{ static_cast<bool>(tmp.compare(display)) };
@@ -73,9 +79,24 @@ int main() {
 		}*/
 
 		cout << display << '\n' << '\n';
-		
-	}
 
-	cout << (lives > 0 ? "You win!" : "You lose! The answer was: " + answer);
+	}
+	cout << (lives > 0 ? 
+		"You win!\n" : 
+		"You lose! The answer was: " + answer + '\n');
+}
+
+int main() {
+	using std::cout, std::cin;
+
+	while (true) {
+		cout << "Play Hangman? [Y/N]: ";
+		char cmd{};
+		cin >> cmd;
+
+		if (cmd == 'Y' || cmd == 'y') play();
+		else break;
+	}
+	
 	return 0;
 }
