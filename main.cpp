@@ -19,18 +19,19 @@ int main() {
 		char guess{};
 		cin >> guess;
 		if (guess == '#') exit(0);
-		
-		std::size_t loc{ answer.find(guess) };
 
-		// Handles case where duplicate letters exist in answer
-		while (loc != string::npos && display.at(loc) != '_') {
-			loc = answer.find(guess, loc + 1);
+		bool guessCorrect = false;
+		for (std::size_t i{ 0 }; i < answer.length(); ++i) {
+			if (display.at(i) == guess) break; // Already guessed this letter
+
+			if (answer.at(i) == guess) {
+				display.at(i) = guess;
+				guessCorrect = true;
+			}
 		}
 
-		if (loc != string::npos) {
-			display.replace(loc, 1, 1, guess);
-		}
-		else {
+
+		if (!guessCorrect) {
 			cout << "Incorrect.\n";
 			lives--;
 			cout << "You have " << lives << " lives remaining.\n";
