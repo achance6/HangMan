@@ -10,8 +10,8 @@ int main() {
 		cout << "Play Hangman? [Y/N]: ";
 		char cmd{ getCmd() };
 
-		if (cmd == 'Y' || cmd == 'y') play();
-		else break;
+		if (cmd == 'Y') play();
+		else if (cmd == 'N') break;
 	}
 	
 	return 0;
