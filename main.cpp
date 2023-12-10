@@ -10,6 +10,15 @@ char getGuess() {
 	return guess;
 }
 
+char getCmd() {
+	//TODO: handle bad inputs
+	using std::cin;
+
+	char cmd{};
+	cin >> cmd;
+	return cmd;
+}
+
 std::string handleGuess(char guess, 
 	std::string_view answer, 
 	std::string_view cur_display) {
@@ -91,8 +100,7 @@ int main() {
 
 	while (true) {
 		cout << "Play Hangman? [Y/N]: ";
-		char cmd{};
-		cin >> cmd;
+		char cmd{ getCmd() };
 
 		if (cmd == 'Y' || cmd == 'y') play();
 		else break;
