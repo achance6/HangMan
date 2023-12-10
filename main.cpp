@@ -1,23 +1,7 @@
 #include <iostream>
 #include <string>
+#include "io.h"
 
-char getGuess() {
-	// TODO: handle bad inputs
-	using std::cin;
-	
-	char guess{};
-	cin >> guess;
-	return guess;
-}
-
-char getCmd() {
-	//TODO: handle bad inputs
-	using std::cin;
-
-	char cmd{};
-	cin >> cmd;
-	return cmd;
-}
 
 std::string handleGuess(char guess, 
 	std::string_view answer, 
