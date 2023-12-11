@@ -19,20 +19,17 @@ void play() {
 	for (int i{ 0 }; i < answer.length(); ++i) display += '_';
 
 	cout << "I'm thinking of a word with " << answer.length() << " letters.\n";
+	cout << buildHangman(0);
 	cout << display << '\n';
 
 	int lives{ 7 };
 	while (lives > 0 && display.find('_') != string::npos) {
 		cout << "Guess a letter (# to quit): ";
 		bool guessCorrect{ handleGuess(getGuess(), answer, display) };
+		if (!guessCorrect) lives--;
 
-		if (!guessCorrect) {
-			cout << "Incorrect.\n";
-			lives--;
-			cout << "You have " << lives << " lives remaining.\n";
-		}
-
-		cout << display << '\n' << '\n';
+		cout << buildHangman(7 - lives);
+		cout << display << '\n';
 
 	}
 	cout << (lives > 0 ?
@@ -80,11 +77,9 @@ std::vector<std::string> getWords() {
 	static std::vector<string> words{};
 
 	if (words.empty()) {
-
 #ifdef DEBUG
 		auto startTime{ std::chrono::steady_clock::now() };
 #endif
-
 		auto dict{ openDict() };
 		while (dict) {
 			string word{};
@@ -93,7 +88,6 @@ std::vector<std::string> getWords() {
 			if (word.length() >= 7) { words.push_back(word); };
 		}
 		dict.close();
-
 #ifdef DEBUG
 		auto endTime{ std::chrono::steady_clock::now() };
 		double duration{ 
@@ -103,7 +97,6 @@ std::vector<std::string> getWords() {
 		};
 		std::cout << "Dictionary took " << duration << "ms to read.\n";
 #endif
-
 	}
 	return words; //move semantics?
 }
@@ -119,4 +112,75 @@ std::ifstream openDict() {
 		exit(1); //TODO: is this the best choice here?
 	}
 	return dict;
+}
+
+std::string buildHangman(int attempts) {
+	std::string hangman{};
+	switch (attempts) {
+	case 0:
+		hangman  = "   ____   \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		break;
+	case 1:
+		hangman  = "   ____   \n";
+		hangman += "  |   |   \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		break;
+	case 2:
+		hangman  = "   ____   \n";
+		hangman += "  |   |   \n";
+		hangman += "  |   O   \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		break;
+	case 3:
+		hangman  = "   ____   \n";
+		hangman += "  |   |   \n";
+		hangman += "  |   O   \n";
+		hangman += "  |   |   \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		break;
+	case 4:
+		hangman  = "   ____   \n";
+		hangman += "  |   |   \n";
+		hangman += "  |   O   \n";
+		hangman += "  |  /|   \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		break;
+	case 5:
+		hangman  = "   ____   \n";
+		hangman += "  |   |   \n";
+		hangman += "  |   O   \n";
+		hangman += "  |  /|\\  \n";
+		hangman += "  |       \n";
+		hangman += "  |       \n";
+		break;
+	case 6:
+		hangman  = "   ____   \n";
+		hangman += "  |   |   \n";
+		hangman += "  |   O   \n";
+		hangman += "  |  /|\\  \n";
+		hangman += "  |  /    \n";
+		hangman += "  |       \n";
+		break;
+	case 7:
+		hangman  = "   ____   \n";
+		hangman += "  |   |   \n";
+		hangman += "  |   O   \n";
+		hangman += "  |  /|\\  \n";
+		hangman += "  |  / \\  \n";
+		hangman += "  |       \n";
+		break;
+	}
+	return hangman;
 }

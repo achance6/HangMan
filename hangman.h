@@ -12,3 +12,5 @@ std::string genAnswer();
 std::vector<std::string> getWords();
 
 std::ifstream openDict();
+
+std::string buildHangman(int attempts);
