@@ -1,9 +1,12 @@
 #pragma once
 #include <vector>
+#include <unordered_set>
 
 void play();
 
-bool handleGuess(std::string_view answer, std::string& display);
+bool handleGuess(std::string_view answer,
+	std::string& display,
+	std::unordered_set<char>& guessHistory);
 
 std::string genAnswer();
 

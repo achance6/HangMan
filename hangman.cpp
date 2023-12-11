@@ -3,6 +3,7 @@
 #include <fstream>
 #include <filesystem>
 #include <vector>
+#include <unordered_set>
 #include "io.h"
 #include "hangman.h"
 
@@ -23,9 +24,10 @@ void play() {
 	cout << display << '\n';
 
 	int lives{ 7 };
+	std::unordered_set<char> guessHistory{};
 	while (lives > 0 && display.find('_') != string::npos) {
 		cout << "Guess a letter (# to quit): ";
-		bool guessCorrect{ handleGuess(answer, display) };
+		bool guessCorrect{ handleGuess(answer, display, guessHistory) };
 		if (!guessCorrect) lives--;
 
 		cout << buildHangman(7 - lives);
@@ -37,7 +39,9 @@ void play() {
 		"You lose! The answer was: " + answer + '\n');
 }
 
-bool handleGuess(std::string_view answer, std::string& display) {
+bool handleGuess(std::string_view answer,
+	std::string& display,
+	std::unordered_set<char>& guessHistory) {
 
 	char guess{ getGuess() };
 	if (guess == '#') exit(0); // TODO: really the best way?
@@ -45,7 +49,7 @@ bool handleGuess(std::string_view answer, std::string& display) {
 	bool guessCorrect{ false };
 	for (std::size_t i{ 0 }; i < answer.length(); ++i) {
 		// Already guessed this letter, no lives deducted
-		if (display.at(i) == guess) {
+		if (guessHistory.find(guess) != guessHistory.end()) {
 			guessCorrect = true;
 			std::cout << "You already guessed this letter.\n";
 			break;
@@ -56,6 +60,7 @@ bool handleGuess(std::string_view answer, std::string& display) {
 		}
 	}
 
+	guessHistory.insert(guess);
 	return guessCorrect; 
 }
 
