@@ -6,6 +6,8 @@
 #include "io.h"
 #include "hangman.h"
 
+#define DEBUG
+
 void play() {
 	using std::string;
 	using std::cout, std::cin;
@@ -94,6 +96,10 @@ std::vector<std::string> getWords() {
 	static std::vector<string> words{};
 
 	if (words.empty()) {
+#ifdef DEBUG
+		using Second = std::chrono::duration<double, std::ratio<1> >;
+		auto startTime{ std::chrono::steady_clock::now() };
+#endif
 		auto dict{ openDict() };
 		while (dict) {
 			string word{};
@@ -102,8 +108,16 @@ std::vector<std::string> getWords() {
 			if (word.length() >= 7) { words.push_back(word); };
 		}
 		dict.close();
+#ifdef DEBUG
+		auto endTime{ std::chrono::steady_clock::now() };
+		double duration{ 
+			std::chrono::duration_cast<
+			std::chrono::duration<double, std::ratio<1>>>
+			(endTime - startTime).count() 
+		};
+		std::cout << "Dictionary took " << duration << "ms to read.\n";
+#endif
 	}
-
 	return words; //move semantics?
 }
 
