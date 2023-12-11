@@ -3,9 +3,9 @@
 
 void play();
 
-std::string handleGuess(char guess,
+bool handleGuess(char guess,
 	std::string_view answer,
-	std::string_view cur_display);
+	std::string& display);
 
 std::string genAnswer();
 

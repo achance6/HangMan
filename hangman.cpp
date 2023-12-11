@@ -6,7 +6,7 @@
 #include "io.h"
 #include "hangman.h"
 
-#define DEBUG
+//#define DEBUG
 
 void play() {
 	using std::string;
@@ -15,6 +15,7 @@ void play() {
 	string answer{ genAnswer() };
 
 	string display{};
+	// init display
 	for (int i{ 0 }; i < answer.length(); ++i) display += '_';
 
 	cout << "I'm thinking of a word with " << answer.length() << " letters.\n";
@@ -23,36 +24,13 @@ void play() {
 	int lives{ 7 };
 	while (lives > 0 && display.find('_') != string::npos) {
 		cout << "Guess a letter (# to quit): ";
-		char guess{ getGuess() };
-		if (guess == '#') exit(0);
-
-		string tmp{ display }; // to compare against new display
-		display = handleGuess(guess, answer, display);
-		bool guessCorrect{ static_cast<bool>(tmp.compare(display)) };
+		bool guessCorrect{ handleGuess(getGuess(), answer, display) };
 
 		if (!guessCorrect) {
 			cout << "Incorrect.\n";
 			lives--;
 			cout << "You have " << lives << " lives remaining.\n";
 		}
-
-		// For different rules: one letter per guess
-
-		/*std::size_t loc{ answer.find(guess) };
-
-		// Handles case where duplicate letters exist in answer
-		while (loc != string::npos && display.at(loc) != '_') {
-			loc = answer.find(guess, loc + 1);
-		}
-
-		if (loc != string::npos) {
-			display.replace(loc, 1, 1, guess);
-		}
-		else {
-			cout << "Incorrect.\n";
-			lives--;
-			cout << "You have " << lives << " lives remaining.\n";
-		}*/
 
 		cout << display << '\n' << '\n';
 
@@ -62,21 +40,27 @@ void play() {
 		"You lose! The answer was: " + answer + '\n');
 }
 
-std::string handleGuess(char guess,
+bool handleGuess(char guess,
 	std::string_view answer,
-	std::string_view cur_display) {
+	std::string& display) {
 
-	std::string display{ cur_display };
+	if (guess == '#') exit(0); // TODO: really the best way?
+
 	bool guessCorrect{ false };
 	for (std::size_t i{ 0 }; i < answer.length(); ++i) {
-		if (display.at(i) == guess) break; // Already guessed this letter
-
+		// Already guessed this letter, no lives deducted
+		if (display.at(i) == guess) {
+			guessCorrect = true;
+			std::cout << "You already guessed this letter.\n";
+			break;
+		}
 		if (answer.at(i) == guess) {
 			display.at(i) = guess;
 			guessCorrect = true;
 		}
 	}
-	return display; // move semantics?
+
+	return guessCorrect; 
 }
 
 std::string genAnswer() {
@@ -96,10 +80,11 @@ std::vector<std::string> getWords() {
 	static std::vector<string> words{};
 
 	if (words.empty()) {
+
 #ifdef DEBUG
-		using Second = std::chrono::duration<double, std::ratio<1> >;
 		auto startTime{ std::chrono::steady_clock::now() };
 #endif
+
 		auto dict{ openDict() };
 		while (dict) {
 			string word{};
@@ -108,6 +93,7 @@ std::vector<std::string> getWords() {
 			if (word.length() >= 7) { words.push_back(word); };
 		}
 		dict.close();
+
 #ifdef DEBUG
 		auto endTime{ std::chrono::steady_clock::now() };
 		double duration{ 
@@ -117,6 +103,7 @@ std::vector<std::string> getWords() {
 		};
 		std::cout << "Dictionary took " << duration << "ms to read.\n";
 #endif
+
 	}
 	return words; //move semantics?
 }
