@@ -78,28 +78,44 @@ std::string handleGuess(char guess,
 }
 
 std::string genAnswer() {
-	using std::cout;
-	//std::filesystem::path cwd = std::filesystem::current_path();
-	//cout << "Current working directory is: " << cwd << '\n';
-
-	std::ifstream dict{};
-	dict.open("words_alpha.txt");
-	if (!dict) {
-		cout << "Failure opening dictionary";
-		return "";
-	}
-
-	std::vector<std::string> words{};
-	while (dict) {
-		std::string word{};
-		dict >> word;
-		// Hangman answers at least 7 letters long
-		if (word.length() >= 7) { words.push_back(word); };
-	}
+	std::vector<std::string> words{ getWords() };
 
 	// TODO: use actual random number
 	auto rand = std::chrono::steady_clock::now().time_since_epoch().count()
 		% words.size();
 
 	return words.at(rand);
+}
+
+std::vector<std::string> getWords() {
+	using std::string;
+
+	// dictionary only read once.
+	static std::vector<string> words{};
+
+	if (words.empty()) {
+		auto dict{ openDict() };
+		while (dict) {
+			string word{};
+			dict >> word;
+			// Hangman answers at least 7 letters long
+			if (word.length() >= 7) { words.push_back(word); };
+		}
+		dict.close();
+	}
+
+	return words; //move semantics?
+}
+
+std::ifstream openDict() {
+	//std::filesystem::path cwd = std::filesystem::current_path();
+	//cout << "Current working directory is: " << cwd << '\n';
+
+	std::ifstream dict{};
+	dict.open("words_alpha.txt");
+	if (!dict) {
+		std::cout << "Failure opening dictionary";
+		exit(1); //TODO: is this the best choice here?
+	}
+	return dict;
 }
