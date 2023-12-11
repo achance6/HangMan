@@ -1,4 +1,8 @@
 #include <iostream>
+#include <chrono>
+#include <fstream>
+#include <filesystem>
+#include <vector>
 #include "io.h"
 #include "hangman.h"
 
@@ -73,7 +77,29 @@ std::string handleGuess(char guess,
 	return display; // move semantics?
 }
 
-constexpr std::string genAnswer() {
-	//TODO: generate answer from dictionary
-	return "hangman";
+std::string genAnswer() {
+	using std::cout;
+	//std::filesystem::path cwd = std::filesystem::current_path();
+	//cout << "Current working directory is: " << cwd << '\n';
+
+	std::ifstream dict{};
+	dict.open("words_alpha.txt");
+	if (!dict) {
+		cout << "Failure opening dictionary";
+		return "";
+	}
+
+	std::vector<std::string> words{};
+	while (dict) {
+		std::string word{};
+		dict >> word;
+		// Hangman answers at least 7 letters long
+		if (word.length() >= 7) { words.push_back(word); };
+	}
+
+	// TODO: use actual random number
+	auto rand = std::chrono::steady_clock::now().time_since_epoch().count()
+		% words.size();
+
+	return words.at(rand);
 }
