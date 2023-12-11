@@ -25,7 +25,7 @@ void play() {
 	int lives{ 7 };
 	while (lives > 0 && display.find('_') != string::npos) {
 		cout << "Guess a letter (# to quit): ";
-		bool guessCorrect{ handleGuess(getGuess(), answer, display) };
+		bool guessCorrect{ handleGuess(answer, display) };
 		if (!guessCorrect) lives--;
 
 		cout << buildHangman(7 - lives);
@@ -37,10 +37,9 @@ void play() {
 		"You lose! The answer was: " + answer + '\n');
 }
 
-bool handleGuess(char guess,
-	std::string_view answer,
-	std::string& display) {
+bool handleGuess(std::string_view answer, std::string& display) {
 
+	char guess{ getGuess() };
 	if (guess == '#') exit(0); // TODO: really the best way?
 
 	bool guessCorrect{ false };
@@ -161,7 +160,7 @@ std::string buildHangman(int attempts) {
 		hangman  = "   ____   \n";
 		hangman += "  |   |   \n";
 		hangman += "  |   O   \n";
-		hangman += "  |  /|\\  \n";
+		hangman += "  |  /|\\ \n";
 		hangman += "  |       \n";
 		hangman += "  |       \n";
 		break;
@@ -169,7 +168,7 @@ std::string buildHangman(int attempts) {
 		hangman  = "   ____   \n";
 		hangman += "  |   |   \n";
 		hangman += "  |   O   \n";
-		hangman += "  |  /|\\  \n";
+		hangman += "  |  /|\\ \n";
 		hangman += "  |  /    \n";
 		hangman += "  |       \n";
 		break;
@@ -177,8 +176,8 @@ std::string buildHangman(int attempts) {
 		hangman  = "   ____   \n";
 		hangman += "  |   |   \n";
 		hangman += "  |   O   \n";
-		hangman += "  |  /|\\  \n";
-		hangman += "  |  / \\  \n";
+		hangman += "  |  /|\\ \n";
+		hangman += "  |  / \\ \n";
 		hangman += "  |       \n";
 		break;
 	}

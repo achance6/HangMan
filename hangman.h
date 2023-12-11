@@ -3,9 +3,7 @@
 
 void play();
 
-bool handleGuess(char guess,
-	std::string_view answer,
-	std::string& display);
+bool handleGuess(std::string_view answer, std::string& display);
 
 std::string genAnswer();
 
