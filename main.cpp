@@ -7,8 +7,9 @@
 int main() {
 	using std::cout;
 	// open + read dictionary at startup as it takes a couple seconds
+	// getWords() contains a static vector of dictionary words.
 	cout << "Initializing...\n";
-	getWords();
+	getWords(); 
 
 	while (true) {
 		cout << "Play Hangman? [Y/N]: ";
