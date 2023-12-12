@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <vector>
 #include <unordered_set>
+#include <cassert>
 #include "io.h"
 #include "hangman.h"
 
@@ -119,6 +120,8 @@ std::ifstream openDict() {
 }
 
 std::string buildHangman(int attempts) {
+	assert(attempts >= 0);
+	assert(attempts <= 7);
 	std::string hangman{};
 	switch (attempts) {
 	case 0:
@@ -186,5 +189,5 @@ std::string buildHangman(int attempts) {
 		hangman += "  |       \n";
 		break;
 	}
-	return hangman;
+	return hangman; // move semantics?
 }
