@@ -1,6 +1,7 @@
 #include <iostream>
 #include <locale>
 #include <limits>
+#include <cctype>
 #include "io.h"
 
 void ignoreLine() {
@@ -20,10 +21,13 @@ char getGuess() {
 			ignoreLine();
 		}
 		ignoreLine();
+
+		if (!std::isalpha(guess)) {
+			cout << "Please enter an alphabetical character";
+		}
 		guess = std::tolower(guess, std::locale());
 
 		return guess;
-		
 	}
 }
 
