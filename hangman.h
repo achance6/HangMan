@@ -40,16 +40,17 @@ std::string genAnswer();
 std::vector<std::string> getWords(int lowerLim = 7);
 
 /**
- * .
+ * Opens dictionary text file for reading.
  *
- * @return
+ * @return stream referring to dictionary text file
  */
 std::ifstream openDict();
 
 /**
- * .
+ * Builds the actual hangman depiction.
  *
- * @param attempts
- * @return
+ * @param attempts How far to draw the hangman. 0 returns just the gallows.
+ * 7 returns the whole depiction.
+ * @return The hangman depiction.
  */
 std::string buildHangman(int attempts);

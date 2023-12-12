@@ -5,6 +5,7 @@
 #include "hangman.h"
 
 int main() {
+	//TODO: modify program to handle dictionary opening failure gracefully
 	using std::cout;
 	// open + read dictionary at startup as it takes a couple seconds
 	// getWords() contains a static vector of dictionary words.
