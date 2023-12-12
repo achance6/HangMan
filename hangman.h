@@ -24,18 +24,19 @@ bool handleGuess(std::string_view answer,
 	std::unordered_set<char>& guessHistory);
 
 /**
- * .
+ * Generate a new hangman answer from the English dictionary.
  *
- * @return
+ * @return english word
  */
 std::string genAnswer();
 
 /**
  * .
  *
+ * @param lowerLim
  * @return
  */
-std::vector<std::string> getWords();
+std::vector<std::string> getWords(int lowerLim = 7);
 
 /**
  * .

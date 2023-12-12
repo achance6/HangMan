@@ -74,7 +74,7 @@ std::string genAnswer() {
 	return words.at(rand);
 }
 
-std::vector<std::string> getWords() {
+std::vector<std::string> getWords(int lowerLim) {
 	using std::string;
 
 	// dictionary only read once.
@@ -88,8 +88,8 @@ std::vector<std::string> getWords() {
 		while (dict) {
 			string word{};
 			dict >> word;
-			// Hangman answers at least 7 letters long
-			if (word.length() >= 7) { words.push_back(word); };
+			// default limit is 7
+			if (word.length() >= lowerLim) { words.push_back(word); };
 		}
 		dict.close();
 #ifdef DEBUG
