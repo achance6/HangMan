@@ -22,8 +22,9 @@ char getGuess() {
 		}
 		ignoreLine();
 
-		if (!std::isalpha(guess)) {
-			cout << "Please enter an alphabetical character";
+		// # is quit command
+		if (!std::isalpha(guess) && guess != '#') {
+			cout << "Please enter an alphabetical character\n";
 		}
 		guess = std::tolower(guess, std::locale());
 

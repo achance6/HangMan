@@ -27,8 +27,15 @@ void play() {
 	int lives{ 7 };
 	std::unordered_set<char> guessHistory{};
 	while (lives > 0 && display.find('_') != string::npos) {
-		cout << "Guess a letter (# to quit): ";
+		cout << "Guess a letter (# to give up): ";
 		bool guessCorrect{ handleGuess(answer, display, guessHistory) };
+
+		// result of guess being '#' i.e. quit command
+		if (display.compare("_quit_") == 0) {
+			lives = 0;
+			break;
+		}
+
 		if (!guessCorrect) lives--;
 
 		cout << buildHangman(7 - lives);
@@ -45,7 +52,10 @@ bool handleGuess(std::string_view answer,
 	std::unordered_set<char>& guessHistory) {
 
 	char guess{ getGuess() };
-	if (guess == '#') exit(0); // TODO: really the best way?
+	if (guess == '#') {
+		display = "_quit_";
+		return true;
+	}
 
 	bool guessCorrect{ false };
 	for (std::size_t i{ 0 }; i < answer.length(); ++i) {
