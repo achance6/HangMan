@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   io.cpp
+ * @brief  Contains functions pertaining to user input/output and validation
+ *
+ * @author Ayden Chance
+ * @date   December 2023
+ *********************************************************************/
 #pragma once
 
 /**

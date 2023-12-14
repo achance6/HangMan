@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   main.cpp
+ * @brief  Console game of hangman
+ * 
+ * @author Ayden Chance
+ * @date   December 2023
+ *********************************************************************/
 #include <iostream>
 #include <string>
 #include <iostream>

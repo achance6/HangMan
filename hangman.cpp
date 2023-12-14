@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * @file   hangman.cpp
+ * @brief  Contains functions pertaining to running the game of hangman
+ * 
+ * @author Ayden Chance
+ * @date   December 2023
+ *********************************************************************/
 #include <iostream>
 #include <chrono>
 #include <fstream>
