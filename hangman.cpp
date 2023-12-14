@@ -91,7 +91,10 @@ std::string genAnswer() {
 		std::cout << "Pre-defined words loaded\n";
 	}
 
-	return words.at(Random::get(0, words.size() - 1));
+	auto rand{ static_cast<size_t>(
+		Random::get(0, static_cast<int>(words.size()) - 1)) };
+
+	return words.at(rand);
 }
 
 std::vector<std::string> getWords(int lowerLim) {
