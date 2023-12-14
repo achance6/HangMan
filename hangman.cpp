@@ -84,6 +84,11 @@ bool handleGuess(std::string_view answer,
 
 std::string genAnswer() {
 	std::vector<std::string> words{ getWords() };
+	// Dictionary open failure
+	if (words.empty()) {
+		loadPredefinedWords(words);
+		std::cout << "Pre-defined words loaded\n";
+	}
 
 	// TODO: use actual random number
 	auto rand = std::chrono::steady_clock::now().time_since_epoch().count()
@@ -129,10 +134,9 @@ std::ifstream openDict() {
 
 	std::ifstream dict{};
 	dict.open("words_alpha.txt");
-	if (!dict) {
-		std::cout << "Failure opening dictionary";
-		exit(1); //TODO: is this the best choice here?
-	}
+
+	if (!dict) std::cout << "Failure opening dictionary\n";
+
 	return dict;
 }
 
@@ -207,4 +211,17 @@ std::string buildHangman(int attempts) {
 		break;
 	}
 	return hangman; // move semantics?
+}
+
+void loadPredefinedWords(std::vector<std::string>& words) {
+	words.push_back("dinosaur");
+	words.push_back("alphabet");
+	words.push_back("jazz"); // hardest hangman word
+	words.push_back("dictionary");
+	words.push_back("dungeon");
+	words.push_back("monastery");
+	words.push_back("onomatopoeia");
+	words.push_back("cryptography");
+	words.push_back("stenography");
+	words.push_back("epistomology");
 }

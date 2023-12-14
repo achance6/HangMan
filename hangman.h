@@ -61,3 +61,15 @@ std::ifstream openDict();
  * @return The hangman depiction.
  */
 std::string buildHangman(int attempts);
+
+/**
+ * Loads a hardcoded list of words into the given vector in case loading a
+ * dictionary fails.
+ *
+ * @param words Vector to load words into.
+ */
+void loadPredefinedWords(std::vector<std::string>& words);
+
+
+
+
