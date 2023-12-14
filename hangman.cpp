@@ -14,6 +14,7 @@
 #include <cassert>
 #include "io.h"
 #include "hangman.h"
+#include "random.h"
 
 //#define DEBUG
 
@@ -90,11 +91,7 @@ std::string genAnswer() {
 		std::cout << "Pre-defined words loaded\n";
 	}
 
-	// TODO: use actual random number
-	auto rand = std::chrono::steady_clock::now().time_since_epoch().count()
-		% words.size();
-
-	return words.at(rand);
+	return words.at(Random::get(0, words.size() - 1));
 }
 
 std::vector<std::string> getWords(int lowerLim) {
