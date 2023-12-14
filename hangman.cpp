@@ -85,11 +85,6 @@ bool handleGuess(std::string_view answer,
 
 std::string genAnswer() {
 	std::vector<std::string> words{ getWords() };
-	// Dictionary open failure
-	if (words.empty()) {
-		loadPredefinedWords(words);
-		std::cout << "Pre-defined words loaded\n";
-	}
 
 	auto rand{ static_cast<size_t>(
 		Random::get(0, static_cast<int>(words.size()) - 1)) };
@@ -98,22 +93,17 @@ std::string genAnswer() {
 }
 
 std::vector<std::string> getWords(int lowerLim) {
-	using std::string;
 
-	// dictionary only read once.
-	static std::vector<string> words{};
+	// static so dictionary only read from once.
+	static std::vector<std::string> words{};
 
 	if (words.empty()) {
 #ifdef DEBUG
 		auto startTime{ std::chrono::steady_clock::now() };
 #endif
 		auto dict{ openDict() };
-		while (dict) {
-			string word{};
-			dict >> word;
-			// default limit is 7
-			if (word.length() >= lowerLim) { words.push_back(word); };
-		}
+		dict ? loadDictionaryWords(words, dict, lowerLim) 
+			 : loadPredefinedWords(words);
 		dict.close();
 #ifdef DEBUG
 		auto endTime{ std::chrono::steady_clock::now() };
@@ -135,7 +125,7 @@ std::ifstream openDict() {
 	std::ifstream dict{};
 	dict.open("words_alpha.txt");
 
-	if (!dict) std::cout << "Failure opening dictionary\n";
+	if (!dict) std::cout << "Dictionary not found. Using pre-defined words.\n";
 
 	return dict;
 }
@@ -224,4 +214,14 @@ void loadPredefinedWords(std::vector<std::string>& words) {
 	words.push_back("cryptography");
 	words.push_back("stenography");
 	words.push_back("epistomology");
+}
+
+void loadDictionaryWords(std::vector<std::string>& words,
+	std::ifstream& dict, int lowerLim) {
+	while (dict) {
+		std::string word{};
+		dict >> word;
+		// default limit is 7
+		if (word.length() >= lowerLim) { words.push_back(word); };
+	}
 }

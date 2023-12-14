@@ -71,6 +71,16 @@ std::string buildHangman(int attempts);
  */
 void loadPredefinedWords(std::vector<std::string>& words);
 
+/**
+ * Loads every word in given dictionary into words vector.
+ *
+ * @param words Vector to load words into.
+ * @param dict Dictionary to use.
+ * @param lowerLim Lower limit on word length to include.
+ */
+void loadDictionaryWords(std::vector<std::string>& words,
+	std::ifstream& dict, int lowerLim);
+
 
 
 
