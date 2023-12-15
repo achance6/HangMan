@@ -23,6 +23,8 @@ void play() {
 	using std::string;
 	using std::cout, std::cin;
 
+	// Answer retrieved at random from a dictionary if available.
+	// Otherwise a few hard-coded words are added and selected from.
 	string answer{ genAnswer() };
 
 	string display{};
@@ -65,7 +67,9 @@ bool handleGuess(std::string_view answer,
 
 	char guess{ getGuess() };
 	if (guess == '#') {
-		display = "_quit_";
+		// Display checked for this message to quit game. 
+		// User does not see this message.
+		display = "_quit_"; 
 		return true;
 	}
 
@@ -123,6 +127,7 @@ std::vector<std::string> getWords(int lowerLim) {
 }
 
 std::ifstream openDict() {
+	// Uncomment to see program's directory.
 	//std::filesystem::path cwd = std::filesystem::current_path();
 	//cout << "Current working directory is: " << cwd << '\n';
 
@@ -135,9 +140,13 @@ std::ifstream openDict() {
 }
 
 std::string buildHangman(int attempts) {
+
 	assert(attempts >= 0);
 	assert(attempts <= 7);
+
 	std::string hangman{};
+
+	// Could definitely be shorter, but this is easy to understand at a glance.
 	switch (attempts) {
 	case 0:
 		hangman  = "   ____   \n";
@@ -214,7 +223,7 @@ void loadPredefinedWords(std::vector<std::string>& words) {
 	words.push_back("dictionary");
 	words.push_back("dungeon");
 	words.push_back("monastery");
-	words.push_back("onomatopoeia");
+	words.push_back("commander");
 	words.push_back("cryptography");
 	words.push_back("stenography");
 	words.push_back("epistomology");
@@ -222,6 +231,7 @@ void loadPredefinedWords(std::vector<std::string>& words) {
 
 void loadDictionaryWords(std::vector<std::string>& words,
 	std::ifstream& dict, int lowerLim) {
+	// Dictionary assumed to be all lowercase, words separated by newlines.
 	while (dict) {
 		std::string word{};
 		dict >> word;
