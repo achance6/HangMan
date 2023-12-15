@@ -74,7 +74,7 @@ bool handleGuess(std::string_view answer,
 		// Already guessed this letter, no lives deducted
 		if (guessHistory.find(guess) != guessHistory.end()) {
 			guessCorrect = true;
-			std::cout << "You already guessed this letter.\n";
+			std::cout << "You already guessed this letter. No lives deducted.\n";
 			break;
 		}
 		if (answer.at(i) == guess) {
