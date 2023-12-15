@@ -16,6 +16,7 @@
 #include "hangman.h"
 #include "random.h"
 
+// Uncomment to have dictionary read time output.
 //#define DEBUG
 
 void play() {
@@ -29,10 +30,13 @@ void play() {
 	for (int i{ 0 }; i < answer.length(); ++i) display += '_';
 
 	cout << "I'm thinking of a word with " << answer.length() << " letters.\n";
-	cout << buildHangman(0);
+	cout << buildHangman(0); // Just the gallows
 	cout << display << '\n';
 
-	int lives{ 7 };
+	// Probably best to keep this hardcoded, buildHangman can't handle
+	// a game with a different amount of lives.
+	int lives{ 7 }; 
+	// Used to not deduct lives on repeat guesses.
 	std::unordered_set<char> guessHistory{};
 	while (lives > 0 && display.find('_') != string::npos) {
 		cout << "Guess a letter (# to give up): ";
