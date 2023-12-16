@@ -34,13 +34,24 @@ void play() {
 	cout << "I'm thinking of a word with " << answer.length() << " letters.\n";
 	cout << buildHangman(0); // Just the gallows
 	cout << display << '\n';
+	
+	cout << 
+		(handleGuesses(display, answer) ?
+		"You win!\n" :
+		"You lose! The answer was: " + answer + '\n');
+}
+
+bool handleGuesses(std::string& display, std::string_view answer) {
+	using std::cout;
 
 	// Probably best to keep this hardcoded, buildHangman can't handle
 	// a game with a different amount of lives.
-	int lives{ 7 }; 
+	int lives{ 7 };
+
 	// Used to not deduct lives on repeat guesses.
 	std::unordered_set<char> guessHistory{};
-	while (lives > 0 && display.find('_') != string::npos) {
+
+	while (lives > 0 && display.find('_') != std::string::npos) {
 		cout << "Guess a letter (# to give up, H to show guess history): ";
 		char guess{ getGuess() };
 		bool guessCorrect{};
@@ -65,11 +76,8 @@ void play() {
 
 		cout << buildHangman(7 - lives);
 		cout << display << '\n';
-
 	}
-	cout << (lives > 0 ?
-		"You win!\n" :
-		"You lose! The answer was: " + answer + '\n');
+	return lives > 0;
 }
 
 bool checkGuess(char guess,

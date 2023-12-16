@@ -16,6 +16,8 @@
  */
 void play();
 
+bool handleGuesses(std::string& display, std::string_view answer);
+
 /**
  * Handles the given guess by comparing it to the given state of the answer
  * and modifying the given display reference. Needs a guessHistory in order
