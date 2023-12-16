@@ -41,13 +41,24 @@ void play() {
 	// Used to not deduct lives on repeat guesses.
 	std::unordered_set<char> guessHistory{};
 	while (lives > 0 && display.find('_') != string::npos) {
-		cout << "Guess a letter (# to give up): ";
-		bool guessCorrect{ handleGuess(answer, display, guessHistory) };
+		cout << "Guess a letter (# to give up, H to show guess history): ";
+		char guess{ getGuess() };
+		bool guessCorrect{};
 
-		// result of guess being '#' i.e. quit command
-		if (display.compare("_quit_") == 0) {
+		// quit command
+		if (guess == '#') {
 			lives = 0;
 			break;
+		}
+		// display guess history command
+		else if (guess == 'H') {
+			for (char prevGuess : guessHistory) cout << prevGuess << ' ';
+			cout << '\n';
+			continue;
+		}
+		// process guess as normal
+		else {
+			guessCorrect = checkGuess(guess, answer, display, guessHistory);
 		}
 
 		if (!guessCorrect) lives--;
@@ -61,17 +72,10 @@ void play() {
 		"You lose! The answer was: " + answer + '\n');
 }
 
-bool handleGuess(std::string_view answer,
+bool checkGuess(char guess,
+	std::string_view answer,
 	std::string& display,
 	std::unordered_set<char>& guessHistory) {
-
-	char guess{ getGuess() };
-	if (guess == '#') {
-		// Display checked for this message to quit game. 
-		// User does not see this message.
-		display = "_quit_"; 
-		return true;
-	}
 
 	bool guessCorrect{ false };
 	for (std::size_t i{ 0 }; i < answer.length(); ++i) {

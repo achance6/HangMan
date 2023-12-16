@@ -27,7 +27,8 @@ void play();
  * to the history.
  * @return True if guess is correct, false otherwise.
  */
-bool handleGuess(std::string_view answer, 
+bool checkGuess(char guess,
+	std::string_view answer, 
 	std::string& display,
 	std::unordered_set<char>& guessHistory);
 
