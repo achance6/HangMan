@@ -16,6 +16,13 @@
  */
 void play();
 
+/**
+ * Handles the logic associated with the guessing part of hangman.
+ *
+ * @param display Where the guessed letter will go. Is modified.
+ * @param answer What the correct answer is.
+ * @return True if player won, false otherwise.
+ */
 bool handleGuesses(std::string& display, std::string_view answer);
 
 /**
