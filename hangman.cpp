@@ -6,7 +6,6 @@
  * @date   December 2023
  *********************************************************************/
 #include <iostream>
-#include <chrono>
 #include <fstream>
 #include <filesystem>
 #include <vector>
@@ -222,21 +221,22 @@ std::string buildHangman(int attempts) {
         hangman += "  |  / \\ \n";
         hangman += "  |       \n";
         break;
+    default: ;
     }
     return hangman; // move semantics?
 }
 
 void loadPredefinedWords(std::vector<std::string>& words) {
-    words.push_back("dinosaur");
-    words.push_back("alphabet");
-    words.push_back("jazz"); // hardest hangman word
-    words.push_back("dictionary");
-    words.push_back("dungeon");
-    words.push_back("monastery");
-    words.push_back("commander");
-    words.push_back("cryptography");
-    words.push_back("stenography");
-    words.push_back("epistomology");
+    words.emplace_back("dinosaur");
+    words.emplace_back("alphabet");
+    words.emplace_back("jazz"); // hardest hangman word
+    words.emplace_back("dictionary");
+    words.emplace_back("dungeon");
+    words.emplace_back("monastery");
+    words.emplace_back("commander");
+    words.emplace_back("cryptography");
+    words.emplace_back("stenography");
+    words.emplace_back("epistomology");
 }
 
 void loadDictionaryWords(std::vector<std::string>& words,

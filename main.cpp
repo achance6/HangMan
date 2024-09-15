@@ -6,10 +6,8 @@
  * @date   December 2023
  *********************************************************************/
 #include <iostream>
-#include <string>
-#include <iostream>
-#include "io.h"
 #include "hangman.h"
+#include "io.h"
 
 int main() {
     using std::cout;
