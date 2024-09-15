@@ -1,4 +1,4 @@
-/*****************************************************************//**
+/*****************************************************************/ /**
  * @file   hangman.h
  * @brief  Contains functions pertaining to running the game of hangman
  * 
@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <unordered_set>
+#include <iostream>
 
 /**
  * Plays a game of hangman.
@@ -37,9 +38,9 @@ bool handleGuesses(std::string& display, std::string_view answer);
  * @return True if guess is correct, false otherwise.
  */
 bool checkGuess(char guess,
-	std::string_view answer, 
-	std::string& display,
-	std::unordered_set<char>& guessHistory);
+                std::string_view answer,
+                std::string& display,
+                std::unordered_set<char>& guessHistory);
 
 /**
  * Generate a new hangman answer from the English dictionary.
@@ -89,8 +90,4 @@ void loadPredefinedWords(std::vector<std::string>& words);
  * @param lowerLim Lower limit on word length to include.
  */
 void loadDictionaryWords(std::vector<std::string>& words,
-	std::ifstream& dict, int lowerLim);
-
-
-
-
+                         std::ifstream& dict, int lowerLim);

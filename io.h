@@ -1,4 +1,4 @@
-/*****************************************************************//**
+/*****************************************************************/ /**
  * @file   io.cpp
  * @brief  Contains functions pertaining to user input/output and validation
  *
